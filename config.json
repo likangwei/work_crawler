@@ -1,0 +1,11 @@
+{
+    "host": "127.0.0.1:8000",
+    "db": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "job",
+        "USER": "root",
+        "PASSWORD": "root",
+        "HOST": "127.0.0.1"
+    }
+
+}

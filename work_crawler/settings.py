@@ -8,6 +8,16 @@
 #     http://doc.scrapy.org/en/latest/topics/settings.html
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+CONFIG = os.path.join(BASE_DIR, 'config.json')
+
+import json
+
+config = json.loads(open(CONFIG).read())
+
+HOST = config['host']
 
 BOT_NAME = 'work_crawler'
 
@@ -61,9 +71,9 @@ DOWNLOAD_DELAY=3
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'work_crawler.pipelines.SomePipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'work_crawler.pipelines.WorkCrawlerPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
