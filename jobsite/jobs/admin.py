@@ -13,8 +13,13 @@ class CompanyAdmin(admin.ModelAdmin):
 
 class JobAdmin(admin.ModelAdmin):
     # fields = ('nickname',)
-    list_display = ["positionName", "workYear", "companyShortName", "companyName", "salary", "city", "industryField"]
-    list_filter = []
+    list_display = ["positionName",
+                    "workYear",
+                    "companyName",
+                    "salary",
+                    "city",
+                    "industryField"]
+    list_filter = ["salary", "workYear"]
     list_per_page = 100
     actions = []
 
