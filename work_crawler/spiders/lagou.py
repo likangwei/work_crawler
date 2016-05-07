@@ -50,6 +50,9 @@ class LagouSpider(scrapy.Spider):
     )
 
     def get_request_by_pg(self, pn):
+        if pn > 30:
+            return None
+
         param = {"city": "北京"}
         url = "http://www.lagou.com/jobs/positionAjax.json?%s" % urllib.urlencode(param)
         param = {
