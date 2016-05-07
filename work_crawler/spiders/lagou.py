@@ -60,8 +60,10 @@ class LagouSpider(scrapy.Spider):
             "pn": str(pn),
             "kd": "python"
         }
+        print '-'*30, param
         body = urllib.urlencode(param)
         request = Request(url, headers=header, cookies=cookies, method="POST", body=body, dont_filter=True)
+        request.meta['pn'] = pn
         return request
 
     def start_requests(self):
@@ -73,7 +75,7 @@ class LagouSpider(scrapy.Spider):
         if data['success']:
             content = data['content']
             has_next_pg = content['hasNextPage']
-            pg_no = content['pageNo']
+            pg_no = response.request.meta['pn']
             results = content['result']
             for company in results:
                 item = JobItem()
