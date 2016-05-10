@@ -19,8 +19,14 @@ class JobAdmin(admin.ModelAdmin):
                     "salary",
                     "city",
                     "industryField",
-                    "crawl_date",
+                    "crawl_fmttime",
                     ]
+
+    def crawl_fmttime(self, obj):
+        return obj.crawl_date.strftime('%Y-%m-%d')
+
+    crawl_fmttime.admin_order_field = "crawl_date"
+
     list_filter = ["salary", "workYear", "crawl_date"]
     list_per_page = 100
     actions = []
