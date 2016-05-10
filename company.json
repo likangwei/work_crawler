@@ -1,0 +1,117 @@
+{
+    "pageType": 1,
+    "history": [],
+    "coreInfo": {
+        "companyId": 46010,
+        "logo": "i/image/M00/00/0B/CgqKkVYl25mAQH1mAAAWQKJIXTo545.png",
+        "companyName": "北京天桐互动信息技术有限公司",
+        "companyShortName": "天桐互动",
+        "approve": 2,
+        "companyUrl": "http://www.skyplatanus.com",
+        "companyIntroduce": "...",
+        "isFirst": false
+    },
+    "location": [
+        {
+            "id": 26727,
+            "companyId": 46010,
+            "briefPosition": "北京市，朝阳区",
+            "detailPosition": "望京东路8号，锐创国际中心",
+            "createTime": "2014-12-15 16:31:36",
+            "updateTime": "2015-10-21 19:48:55",
+            "isdel": false,
+            "longitude": "116.492375",
+            "latitude": "40.014556"
+        }
+    ],
+    "labels": [
+        "年底双薪",
+        "节日礼物",
+        "技能培训",
+        "年度旅游",
+        "岗位晋升",
+        "管理规范",
+        "定期体检",
+        "五险一金",
+        "带薪年假"
+    ],
+    "dataInfo": {
+        "positionCount": 3,
+        "resumeProcessRate": 80,
+        "resumeProcessTime": 2,
+        "experienceCount": 6,
+        "lastLoginTime": "昨天"
+    },
+    "companyId": 46010,
+    "baseInfo": {
+        "companyId": 46010,
+        "industryField": "移动互联网",
+        "companySize": "15-50人",
+        "city": "北京",
+        "financeStage": "A轮"
+    },
+    "leaders": [],
+    "products": [],
+    "isCompanyHr": false,
+    "introduction": {
+        "companyId": 46010,
+        "companyProfile": "<p>国际顶级VC投资，超扁平化管理，股份期权激励，年度海外Outting，员工颜均值8+</p>\n<p><br /></p>\n<p>赶紧来吧。</p>",
+        "pictures": [
+            {
+                "id": 56894,
+                "companyId": 46010,
+                "companyPicUrl": "i/image/M00/00/0D/CgqKkVYl-_CAGTP7AAu3FVKakAg150.jpg",
+                "position": 1,
+                "createTime": "2015-10-20 16:32:30",
+                "updateTime": "2015-10-21 16:45:27",
+                "isdel": false
+            },
+            {
+                "id": 56895,
+                "companyId": 46010,
+                "companyPicUrl": "i/image/M00/00/0D/Cgp3O1Yl-_mAFbVOAAbq0acrO4s260.jpg",
+                "position": 0,
+                "createTime": "2015-10-20 16:32:30",
+                "updateTime": "2015-10-21 16:45:27",
+                "isdel": false
+            },
+            {
+                "id": 56896,
+                "companyId": 46010,
+                "companyPicUrl": "i/image/M00/00/0D/CgqKkVYl_ACANwTRABC00rAV9iM367.jpg",
+                "position": 0,
+                "createTime": "2015-10-20 16:32:30",
+                "updateTime": "2015-10-21 16:45:27",
+                "isdel": false
+            },
+            {
+                "id": 56897,
+                "companyId": 46010,
+                "companyPicUrl": "i/image/M00/00/0D/Cgp3O1Yl_AeAPYVCAAw3GGF6xmI819.jpg",
+                "position": 0,
+                "createTime": "2015-10-20 16:32:30",
+                "updateTime": "2015-10-21 16:45:27",
+                "isdel": false
+            },
+            {
+                "id": 56898,
+                "companyId": 46010,
+                "companyPicUrl": "i/image/M00/00/0D/CgqKkVYl_A-AMWXIAAxCHxqncW0389.jpg",
+                "position": 0,
+                "createTime": "2015-10-20 16:32:30",
+                "updateTime": "2015-10-21 16:45:27",
+                "isdel": false
+            },
+            {
+                "id": 56899,
+                "companyId": 46010,
+                "companyPicUrl": "i/image/M00/00/0D/Cgp3O1Yl_BaALIplABDRlM61BiA201.jpg",
+                "position": 0,
+                "createTime": "2015-10-20 16:32:30",
+                "updateTime": "2015-10-21 16:45:27",
+                "isdel": false
+            }
+        ]
+    },
+    "userType": false
+}

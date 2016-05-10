@@ -25,7 +25,13 @@ def post_job_to_server(item):
 def post_company_to_server(item):
     item = dict(item)
     url = "http://%s/rest/company/" % HOST
+
+    # 检查是否存在, 如果存在就用put, 不存在就用post
     cid = item['companyId']
+    param = {'cid': cid}
+    param = json.dumps(param)
+    response = requests.get(url, params={'filter': param})
+    resp_json = response.json()
     user, pwd = 'root', 'root'
 
     params = {
@@ -36,12 +42,21 @@ def post_company_to_server(item):
         "companyName": item['companyName'],
         "financeStage": item['financeStage'],
         "companySize": item['companySize'],
-        "lat": "unknow",
-        "lng": "unknow",
+        "lat":  item['lat'],
+        "lng":  item['lng'],
         "score": item['score'],
+        "briefPosition": item['briefPosition'],
+        "detailPosition": item['detailPosition'],
     }
-    response = requests.post(url, json=params, auth=(user, pwd))
-    print response.content
+    # 存在
+    if resp_json['count']:
+        rid = resp_json['results'][0]['id']
+        url = '%s%d/' % (url, rid)
+        response = requests.put(url, json=params, auth=(user, pwd))
+    else:
+        # 不存在
+        response = requests.post(url, json=params, auth=(user, pwd))
+        print response.content
 
 
 class WorkCrawlerPipeline(object):

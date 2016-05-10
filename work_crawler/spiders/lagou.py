@@ -155,4 +155,20 @@ class LagouSpider(scrapy.Spider):
             if m:
                 score = m.group(1)
                 company_item['score'] = score
+                for line in response.body.splitlines():
+                    s1 = r"""<script id="companyInfoData" type="text/html">"""
+                    endidx = 0 - len("</script>")
+                    if s1 in line:
+                        start = len(s1)
+                        # company.json
+                        interviewExperiencesData = line.strip()[start:endidx]
+                        r = json.loads(interviewExperiencesData)
+                        location = r['location']
+                        if location:
+                            location = location[0]
+                            company_item['lat'] = location['latitude']
+                            company_item['lng'] = location['longitude']
+                            company_item['briefPosition'] = location['briefPosition']
+                            company_item['detailPosition'] = location['detailPosition']
+
                 yield company_item

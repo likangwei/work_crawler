@@ -16,6 +16,8 @@ class CompanyItem(scrapy.Item):
     companySize = scrapy.Field()
 
     address = scrapy.Field()
+    briefPosition = scrapy.Field()
+    detailPosition = scrapy.Field()
     score = scrapy.Field()
     lat = scrapy.Field()
     lng = scrapy.Field()
