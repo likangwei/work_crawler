@@ -7,7 +7,7 @@ from django.shortcuts import render
 
 
 class CompanyAdmin(admin.ModelAdmin):
-    list_display = ['cid', 'name']
+    list_display = ['cid', 'name', 'companyShortName', 'companyName', 'score']
 
 
 
