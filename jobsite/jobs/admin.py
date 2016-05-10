@@ -18,8 +18,10 @@ class JobAdmin(admin.ModelAdmin):
                     "companyName",
                     "salary",
                     "city",
-                    "industryField"]
-    list_filter = ["salary", "workYear"]
+                    "industryField",
+                    "crawl_date",
+                    ]
+    list_filter = ["salary", "workYear", "crawl_date"]
     list_per_page = 100
     actions = []
 
