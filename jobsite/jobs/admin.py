@@ -4,11 +4,14 @@ from models import Job
 from models import Company
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.utils.html import format_html
 
 
 class CompanyAdmin(admin.ModelAdmin):
-    list_display = ['cid', 'name', 'companyShortName', 'companyName', 'score']
+    list_display = ['cid', 'name', 'score', 'view_on_lagou']
 
+    def view_on_lagou(self, obj):
+        return format_html('<a target="_blank" href="http://www.lagou.com/gongsi/%s.html">%s</a>' % (obj.cid, obj.companyShortName))
 
 
 class JobAdmin(admin.ModelAdmin):
