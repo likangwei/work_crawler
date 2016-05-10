@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 import scrapy
 import json
+import re
 import urllib
 from scrapy.http import Request
 from work_crawler.items import JobItem
+from work_crawler.items import CompanyItem
 
 cookies = {
     "LGUID": r'20160220235342-1db33639-d7ea-11e5-8af7-525400f775ce',
@@ -66,23 +68,91 @@ class LagouSpider(scrapy.Spider):
         request.meta['pn'] = pn
         return request
 
+    def get_company_request(self, company_item):
+        cid = company_item['companyId']
+        url = 'http://www.lagou.com/gongsi/%s.html' % cid
+        request = Request(url, callback=self.parse_company)
+        request.meta['company_item'] = company_item
+        return request
+
     def start_requests(self):
         yield self.get_request_by_pg(1)
 
     def parse(self, response):
-
+        self.log(response.body)
         data = json.loads(response.body)
         if data['success']:
             content = data['content']
-            has_next_pg = content['hasNextPage']
+            positionResult = content['positionResult']
             pg_no = response.request.meta['pn']
-            results = content['result']
-            for company in results:
+            results = positionResult['result']
+            for result in results:
                 item = JobItem()
-                item.update(company)
+                item['companyId'] = result['companyId']
+                item['positionName'] = result['positionName']
+                item['positionType'] = result['positionType']
+                item['workYear'] = result['workYear']
+                item['education'] = result['education']
+                item['jobNature'] = result['jobNature']
+                item['createTime'] = result['createTime']
+                item['companyShortName'] = result['companyShortName']
+                item['positionFirstType'] = result['positionFirstType']
+                item['positionId'] = result['positionId']
+                item['salary'] = result['salary']
+                item['city'] = result['city']
+                item['positionAdvantage'] = result['positionAdvantage']
+                item['companyName'] = result['companyName']
+                item['companyLogo'] = result['companyLogo']
+                item['industryField'] = result['industryField']
+                item['financeStage'] = result['financeStage']
+                item['companyLabelList'] = result['companyLabelList']
+                item['leaderName'] = result['leaderName']
+                item['companySize'] = result['companySize']
+                item['deliverCount'] = result['deliverCount']
+                item['score'] = result['score']
+                item['adjustScore'] = result['adjustScore']
+                item['relScore'] = result['relScore']
+                item['formatCreateTime'] = result['formatCreateTime']
+                item['randomScore'] = result['randomScore']
+                item['countAdjusted'] = result['countAdjusted']
+                item['calcScore'] = result['calcScore']
+                item['orderBy'] = result['orderBy']
+                item['showOrder'] = result['showOrder']
+                item['haveDeliver'] = result['haveDeliver']
+                item['adWord'] = result['adWord']
+                item['createTimeSort'] = result['createTimeSort']
+                item['positonTypesMap'] = result['positonTypesMap']
+                item['hrScore'] = result['hrScore']
+                item['flowScore'] = result['flowScore']
+                item['showCount'] = result['showCount']
+                item['pvScore'] = result['pvScore']
+                item['plus'] = result['plus']
+                item['imstate'] = result['imstate']
+                item['totalCount'] = result['totalCount']
+                item['searchScore'] = result['searchScore']
                 yield item
 
-            if has_next_pg:
-                self.logger.info('has next page')
-                request = self.get_request_by_pg(int(pg_no) + 1)
-                yield request
+                companyId = result['companyId']
+                company_item = CompanyItem()
+                company_item['companyId'] = companyId
+                company_item['companyShortName'] = result['companyShortName']
+                company_item['companyName'] = result['companyName']
+                company_item['financeStage'] = result['financeStage']
+                company_item['companySize'] = result['companySize']
+                yield self.get_company_request(company_item)
+
+            request = self.get_request_by_pg(int(pg_no) + 1)
+            yield request
+
+    def parse_company(self, response):
+        xp = '//*[@id="interview_container"]/div[3]/div[1]/div/span[2]'
+        company_item = response.request.meta['company_item']
+        matchs = response.xpath(xp)
+        if matchs:
+            txt = matchs[0].extract()
+            cmp = '<span class="score">(.+)</span>'
+            m = re.match(cmp, txt)
+            if m:
+                score = m.group(1)
+                company_item['score'] = score
+                yield company_item

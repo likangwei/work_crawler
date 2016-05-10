@@ -1,8 +1,10 @@
+#coding=utf8
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework import renderers
 from rest_framework.response import Response
 from serializers import JobSerializer
+from serializers import CompanySerializer
 from models import Job
 from models import Company
 from rest_framework import permissions
@@ -28,8 +30,20 @@ class JobViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = self.queryset
         filter = self.request.GET.get('filter', '{}')
-        if filter:
-            filter = json.loads(filter)
+        filter = json.loads(filter)
+        queryset = queryset.filter(**filter)
+        return queryset
+
+
+class CompanyViewSet(viewsets.ModelViewSet):
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+
+    def get_queryset(self):
+        queryset = self.queryset
+        filter = self.request.GET.get('filter', '{}')
+        filter = json.loads(filter)
         queryset = queryset.filter(**filter)
         return queryset
 

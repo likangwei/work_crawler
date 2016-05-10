@@ -10,9 +10,11 @@ import requests
 import json
 import base64
 from requests.auth import HTTPBasicAuth
+import items
 
 
-def post_to_server(item):
+def post_job_to_server(item):
+    item = dict(item)
     url = "http://%s/rest/jobs/" % HOST
     user, pwd = 'root', 'root'
     params = dict(item)
@@ -20,9 +22,34 @@ def post_to_server(item):
     print response.content
 
 
+def post_company_to_server(item):
+    item = dict(item)
+    url = "http://%s/rest/company/" % HOST
+    cid = item['companyId']
+    user, pwd = 'root', 'root'
+
+    params = {
+        "cid": cid,
+        "name": item['companyName'],
+        "address": "unknow",
+        "companyShortName": item['companyShortName'],
+        "companyName": item['companyName'],
+        "financeStage": item['financeStage'],
+        "companySize": item['companySize'],
+        "lat": "unknow",
+        "lng": "unknow",
+        "score": item['score'],
+    }
+    response = requests.post(url, json=params, auth=(user, pwd))
+    print response.content
+
+
 class WorkCrawlerPipeline(object):
     def process_item(self, item, spider):
-        post_to_server(item)
+        if isinstance(item, items.JobItem):
+            post_job_to_server(item)
+        elif isinstance(item, items.CompanyItem):
+            post_company_to_server(item)
         return item
 
 if __name__ == '__main__':
@@ -68,4 +95,4 @@ if __name__ == '__main__':
 "imstate":"disabled",
 "totalCount":0,
 "searchScore":0.0}""")
-    post_to_server(item)
+    post_job_to_server(item)

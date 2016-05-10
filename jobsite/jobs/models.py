@@ -5,8 +5,16 @@ from django.db import models
 
 
 class Company(models.Model):
-    cid = models.IntegerField(verbose_name="公司ID")
+    cid = models.IntegerField(unique=True, verbose_name="公司ID")
     name = models.CharField(max_length=100, default=None, null=True, verbose_name="公司名称")
+    address = models.CharField(max_length=100, default=None, null=True, verbose_name="公司名称")
+    companyShortName = models.CharField(max_length=100, default=None, null=True, verbose_name="公司名称")
+    companyName = models.CharField(max_length=100, default=None, null=True, verbose_name="公司名称")
+    financeStage = models.CharField(max_length=100, default=None, null=True, verbose_name="公司名称")
+    companySize = models.CharField(max_length=100, default=None, null=True, verbose_name="公司名称")
+    lat = models.CharField(max_length=100, default=None, null=True, verbose_name="公司名称")
+    lng = models.CharField(max_length=100, default=None, null=True, verbose_name="公司名称")
+    score = models.FloatField(default=0, verbose_name="综合得分")
 
 
 class Job(models.Model):
