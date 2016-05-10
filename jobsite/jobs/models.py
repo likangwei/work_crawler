@@ -46,3 +46,4 @@ class Job(models.Model):
     showCount = models.CharField(max_length=255, default=None, null=True, verbose_name="展示次数")
     pvScore = models.CharField(max_length=255, default=None, null=True, verbose_name="pvScore")
     imstate = models.CharField(max_length=255, default=None, null=True, verbose_name="imstate")
+    crawl_date = models.DateField(auto_now=True)
