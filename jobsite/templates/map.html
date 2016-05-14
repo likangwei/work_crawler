@@ -11,7 +11,7 @@
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=b9DuG0VA5Hc7cpK5nlB7Vej7"></script>
     <script type="text/javascript" src="static/js/handlebars-v4.0.5.js"></script>
     <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
-    <title>给多个点添加信息窗口</title>
+    <title>公司</title>
 </head>
 <body>
     <div id="allmap"></div>
@@ -44,15 +44,46 @@
                 title : "信息窗口" , // 信息窗口标题
                 enableMessage:true//设置允许信息窗发送短息
                };
+    // 创建地址解析器实例
+    var myGeo = new BMap.Geocoder();
+
+    function get_point(company, func){
+        if(company['lng'] != '' && company['lat'] != ''){
+            point = new BMap.Point(company['lng'],company['lat']);
+            func(company, point);
+        }else{
+            var keyword = null;
+            if(!company['detailPosition'] in ["", null]){
+                keyword = company['detailPosition']
+            }else{
+                keyword = company['companyShortName']
+            }
+            // 将地址解析结果显示在地图上,并调整地图视野
+            myGeo.getPoint(keyword , function(point){
+                 if (point) {
+                     console.log("ok:" + keyword);
+                     func(company, point);
+                 }else{
+                    console.log("fail!" + company['name'] + ":" + company['detailPosition']);
+                 }
+            }, "北京市");
+        }
+    }
+
     for(var i=0;i<company_list.length;i++){
         var company = company_list[i];
-        var marker = new BMap.Marker(new BMap.Point(company['lng'],company['lat']));  // 创建标注
-        var content = company['name'];
-        var label = new BMap.Label(content, {offset:new BMap.Size(20,-10)});
-        marker.setLabel(label)
-        map.addOverlay(marker);               // 将标注添加到地图中
-        addClickHandler(company, marker);
+        function drawCompany(company, point) {
+            var marker = new BMap.Marker(point);  // 创建标注
+            var content = [company['name'], ',', "得分:", company['score']].join("");
+            var label = new BMap.Label(content, {offset:new BMap.Size(20,-10)});
+            marker.setLabel(label)
+            map.addOverlay(marker);               // 将标注添加到地图中
+            addClickHandler(company, marker);
+        }
+       get_point(company, drawCompany)
     }
+
+
     function addClickHandler(content, marker){
         marker.addEventListener("click",function(e){
             openInfo(content,e)}

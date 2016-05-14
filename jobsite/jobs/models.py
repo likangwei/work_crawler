@@ -18,6 +18,10 @@ class Company(models.Model):
     lng = models.FloatField(default=None, null=True, verbose_name="lng")
     score = models.FloatField(default=0, verbose_name="综合得分")
 
+    @property
+    def detail(self):
+        return '%s: 得分:%s, 工作:%d份' % (self.name, self.score, Job.objects.filter(companyId=self.cid)).count()
+
 
 class Job(models.Model):
     companyId = models.CharField(max_length=255, default=None, null=True, verbose_name="companyId")
