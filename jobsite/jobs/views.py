@@ -1,5 +1,6 @@
 #coding=utf8
 from django.shortcuts import render
+from django.shortcuts import render_to_response
 from rest_framework import viewsets
 from rest_framework import renderers
 from rest_framework.response import Response
@@ -49,4 +50,8 @@ class CompanyViewSet(viewsets.ModelViewSet):
 
 
 def index(request):
-    return HttpResponse(str(request.user))
+    company_list = Company.objects.all().values()
+    # render_to_response('add.html', {'form': form}, context_instance=RequestContext(request))
+    return render(request, 'map.html', context={
+        'company_list': json.dumps(list(company_list), ensure_ascii=False)
+    })

@@ -14,8 +14,8 @@ class Company(models.Model):
     companySize = models.CharField(max_length=100, default=None, null=True, verbose_name="公司名称")
     briefPosition = models.CharField(max_length=100, default=None, null=True, verbose_name="briefPosition")
     detailPosition = models.CharField(max_length=100, default=None, null=True, verbose_name="detailPosition")
-    lat = models.CharField(max_length=100, default=None, null=True, verbose_name="公司名称")
-    lng = models.CharField(max_length=100, default=None, null=True, verbose_name="公司名称")
+    lat = models.FloatField(default=None, null=True, verbose_name="lat")
+    lng = models.FloatField(default=None, null=True, verbose_name="lng")
     score = models.FloatField(default=0, verbose_name="综合得分")
 
 
