@@ -61,19 +61,19 @@
         }else{
             var keyword = null;
             if(!company['detailPosition'] in ["", null]){
-                keyword = company['detailPosition']
+                keyword = company['detailPosition'];
+                // 将地址解析结果显示在地图上,并调整地图视野
+                myGeo.getPoint(keyword , function(point){
+                    if (point) {
+                        console.log("ok:" + keyword + " " + point.lat + ":" +point.lng);
+                        func(company, point, myIcon);
+                    }else{
+                       console.log("fail!" + company['name'] + ":" + company['detailPosition']);
+                    }
+                }, "北京市");
             }else{
-                keyword = company['companyShortName']
+                console.log("fail!" + company['name'] + ":" + company['detailPosition']);
             }
-            // 将地址解析结果显示在地图上,并调整地图视野
-            myGeo.getPoint(keyword , function(point){
-                 if (point) {
-                     console.log("ok:" + keyword + " " + point.lat + ":" +point.lng);
-                     func(company, point, myIcon);
-                 }else{
-                    console.log("fail!" + company['name'] + ":" + company['detailPosition']);
-                 }
-            }, "北京市");
         }
     }
 

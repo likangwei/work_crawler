@@ -8,7 +8,7 @@ from django.utils.html import format_html
 
 
 class CompanyAdmin(admin.ModelAdmin):
-    list_display = ['cid', 'name', 'score', 'view_on_lagou']
+    list_display = ['cid', 'name', 'score', 'view_on_lagou', "detailPosition"]
     list_per_page = 10000
     def view_on_lagou(self, obj):
         return format_html('<a target="_blank" href="http://www.lagou.com/gongsi/%s.html">%s</a>' % (obj.cid, obj.companyShortName))

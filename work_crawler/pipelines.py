@@ -11,7 +11,7 @@ import json
 import base64
 from requests.auth import HTTPBasicAuth
 import items
-
+import sys
 
 def post_job_to_server(item):
     item = dict(item)
@@ -22,7 +22,7 @@ def post_job_to_server(item):
     print response.content
 
 
-def post_company_to_server(item):
+def post_company_to_server(item, logger=None):
     item = dict(item)
     url = "http://%s/rest/company/" % HOST
 
@@ -42,8 +42,8 @@ def post_company_to_server(item):
         "companyName": item['companyName'],
         "financeStage": item['financeStage'],
         "companySize": item['companySize'],
-        "lat":  item['lat'],
-        "lng":  item['lng'],
+        "lat":  item['lat'] or 0,
+        "lng":  item['lng'] or 0,
         "score": item['score'],
         "briefPosition": item['briefPosition'],
         "detailPosition": item['detailPosition'],
@@ -52,11 +52,15 @@ def post_company_to_server(item):
     if resp_json['count']:
         rid = resp_json['results'][0]['id']
         url = '%s%d/' % (url, rid)
-        response = requests.put(url, json=params, auth=(user, pwd))
+        response = requests.patch(url, json=params, auth=(user, pwd))
     else:
         # 不存在
         response = requests.post(url, json=params, auth=(user, pwd))
-        print response.content
+
+    if not response.ok:
+        if logger:
+            logger.error(params)
+            logger.error(response.content)
 
 
 class WorkCrawlerPipeline(object):
@@ -64,50 +68,18 @@ class WorkCrawlerPipeline(object):
         if isinstance(item, items.JobItem):
             post_job_to_server(item)
         elif isinstance(item, items.CompanyItem):
-            post_company_to_server(item)
+            post_company_to_server(item, spider.logger)
         return item
 
 if __name__ == '__main__':
-    item = json.loads("""{"companyId":115639,
-"positionName":"Python",
-"positionType":"后端开发",
-"workYear":"不限",
-"education":"本科",
-"jobNature":"全职",
-"createTime":"2016-04-27 17:17:50",
-"companyShortName":"北京凯博创盈科技发展有限公司",
-"positionFirstType":"技术",
-"positionId":1580725,
-"salary":"8k-16k",
-"city":"北京",
-"positionAdvantage":"晋升空间",
-"companyName":"北京凯博创盈科技发展有限公司",
-"companyLogo":"i/image/M00/06/EB/Cgp3O1bNXnOAb0JEAAAHYPkPBTc687.png",
-"industryField":"移动互联网 · 数据服务",
-"financeStage":"初创型(未融资)",
-"companyLabelList":[],
-"leaderName":"暂没有填写",
-"companySize":"15-50人",
-"deliverCount":3,
-"score":1208,
-"adjustScore":0,
-"relScore":1000,
-"formatCreateTime":"1天前发布",
-"randomScore":0,
-"countAdjusted":false,
-"calcScore":false,
-"orderBy":60,
-"showOrder":0,
-"haveDeliver":false,
-"adWord":0,
-"createTimeSort":1461748670000,
-"positonTypesMap":null,
-"hrScore":62,
-"flowScore":86,
-"showCount":238,
-"pvScore":48.04361074035268,
-"plus":"否",
-"imstate":"disabled",
-"totalCount":0,
-"searchScore":0.0}""")
-    post_job_to_server(item)
+    item = {'briefPosition': u'\u5317\u4eac\u5e02\uff0c\u6d77\u6dc0\u533a',
+             'companyId': 356,
+             'companyName': u'\u6377\u901a\u534e\u58f0',
+             'companyShortName': u'\u5317\u4eac\u6377\u901a\u534e\u58f0\u79d1\u6280\u80a1\u4efd\u6709\u9650\u516c\u53f8',
+             'companySize': u'150-500\u4eba',
+             'detailPosition': u'\u5317\u4eac\u5e02\u6d77\u6dc0\u533a\u4e2d\u5173\u6751\u8f6f\u4ef6\u56ed2A\u697c2101',
+             'financeStage': u'\u6210\u957f\u578b(\u4e0d\u9700\u8981\u878d\u8d44)',
+             'lat': u'40.05486',
+             'lng': u'116.303809',
+             'score': u'3.5'}
+    post_company_to_server(item)
