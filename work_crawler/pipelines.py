@@ -13,13 +13,15 @@ from requests.auth import HTTPBasicAuth
 import items
 import sys
 
-def post_job_to_server(item):
+def post_job_to_server(item, logger=None):
     item = dict(item)
     url = "http://%s/rest/jobs/" % HOST
     user, pwd = 'root', 'root'
     params = dict(item)
     response = requests.post(url, json=params, auth=(user, pwd))
-    print response.content
+    if not response:
+        logger.error(params)
+        logger.error(params)
 
 
 def post_company_to_server(item, logger=None):
@@ -66,9 +68,9 @@ def post_company_to_server(item, logger=None):
 class WorkCrawlerPipeline(object):
     def process_item(self, item, spider):
         if isinstance(item, items.JobItem):
-            post_job_to_server(item)
+            post_job_to_server(item, logger=spider.logger)
         elif isinstance(item, items.CompanyItem):
-            post_company_to_server(item, spider.logger)
+            post_company_to_server(item, logger=spider.logger)
         return item
 
 if __name__ == '__main__':
