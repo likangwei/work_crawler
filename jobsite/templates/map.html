@@ -75,17 +75,16 @@
     for(var i=0;i<company_list.length;i++){
         var company = company_list[i];
         function drawCompany(company, point, icon) {
-            if (icon != null){
-                var marker = new BMap.Marker(point);  // 创建标注
-                marker.setAnimation(BMAP_ANIMATION_BOUNCE);
-            }else{
-                var marker = new BMap.Marker(point);  // 创建标注
-            }
+            var marker = new BMap.Marker(point);  // 创建标注
+
 
             var content = [company['name'], ',', "得分:", company['score']].join("");
             var label = new BMap.Label(content, {offset: new BMap.Size(10,-10)});
             marker.setLabel(label)
             map.addOverlay(marker);               // 将标注添加到地图中
+            if (company['status'] == 'excellent'){
+                marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+            }
             addClickHandler(company, marker);
         }
        get_point(company, drawCompany)
