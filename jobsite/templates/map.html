@@ -80,7 +80,8 @@
         var company = company_list[i];
         function drawCompany(company, point, icon) {
             if (icon != null){
-                var marker = new BMap.Marker(point, {icon: icon});  // 创建标注
+                var marker = new BMap.Marker(point);  // 创建标注
+                marker.setAnimation(BMAP_ANIMATION_BOUNCE);
             }else{
                 var marker = new BMap.Marker(point);  // 创建标注
             }
