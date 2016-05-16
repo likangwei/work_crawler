@@ -59,7 +59,7 @@
             func(company, point, myIcon);
         }else{
             var keyword = null;
-            if(!company['detailPosition'] in ["", null]){
+            if(!company['detailPosition'] in [0.0, "0.0", "", null]){
                 keyword = company['detailPosition']
             }else{
                 keyword = company['companyShortName']
