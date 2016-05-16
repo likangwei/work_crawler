@@ -48,15 +48,15 @@
     var myGeo = new BMap.Geocoder();
 
     function get_point(company, func){
+        var myIcon = null;
         if(company['status'] == 'excellent'){
-                myIcon = new BMap.Icon("http://developer.baidu.com/map/jsdemo/img/fox.gif", new BMap.Size(300,157));
+            myIcon = new BMap.Icon("http://developer.baidu.com/map/jsdemo/img/fox.gif", new BMap.Size(300,157));
         }else{
-                myIcon = null;
+            myIcon = null;
         }
 
         if(company['lng'] != 0 && company['lat'] != 0.0){
             point = new BMap.Point(company['lng'], company['lat']);
-            var myIcon = null;
             func(company, point, myIcon);
         }else{
             var keyword = null;
