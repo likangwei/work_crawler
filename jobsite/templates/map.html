@@ -50,7 +50,13 @@
     function get_point(company, func){
         if(company['lng'] != '' && company['lat'] != ''){
             point = new BMap.Point(company['lng'],company['lat']);
-            func(company, point);
+            var myIcon = null;
+            if(company['status'] == 'excellent'){
+                myIcon = new BMap.Icon("http://developer.baidu.com/map/jsdemo/img/fox.gif", new BMap.Size(300,157));
+            }else{
+                myIcon = null;
+            }
+            func(company, point, myIcon);
         }else{
             var keyword = null;
             if(!company['detailPosition'] in ["", null]){
@@ -72,10 +78,15 @@
 
     for(var i=0;i<company_list.length;i++){
         var company = company_list[i];
-        function drawCompany(company, point) {
-            var marker = new BMap.Marker(point);  // 创建标注
+        function drawCompany(company, point, icon) {
+            if (icon != null){
+                var marker = new BMap.Marker(point, {icon: icon});  // 创建标注
+            }else{
+                var marker = new BMap.Marker(point);  // 创建标注
+            }
+
             var content = [company['name'], ',', "得分:", company['score']].join("");
-            var label = new BMap.Label(content, {offset:new BMap.Size(20,-10)});
+            var label = new BMap.Label(content, {offset: new BMap.Size(10,-10)});
             marker.setLabel(label)
             map.addOverlay(marker);               // 将标注添加到地图中
             addClickHandler(company, marker);

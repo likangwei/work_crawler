@@ -5,6 +5,15 @@ from django.db import models
 
 
 class Company(models.Model):
+    STATUS_POOR = "poor"
+    STATUS_EXCELLENT = "excellent"
+    STATUS_UNKNOW = "unknow"
+
+    STATUS_CHOICE = (
+        (STATUS_POOR, STATUS_POOR),
+        (STATUS_UNKNOW, STATUS_UNKNOW),
+        (STATUS_EXCELLENT, STATUS_EXCELLENT),
+    )
     cid = models.IntegerField(unique=True, verbose_name="公司ID")
     name = models.CharField(max_length=100, default=None, null=True, verbose_name="公司名称")
     address = models.CharField(max_length=100, default=None, null=True, verbose_name="公司名称")
@@ -12,11 +21,12 @@ class Company(models.Model):
     companyName = models.CharField(max_length=100, default=None, null=True, verbose_name="公司名称")
     financeStage = models.CharField(max_length=100, default=None, null=True, verbose_name="公司名称")
     companySize = models.CharField(max_length=100, default=None, null=True, verbose_name="公司名称")
-    briefPosition = models.CharField(max_length=100, default=None, null=True, verbose_name="briefPosition")
-    detailPosition = models.CharField(max_length=100, default=None, null=True, verbose_name="detailPosition")
+    briefPosition = models.CharField(max_length=100, default=None, blank=True, null=True, verbose_name="briefPosition")
+    detailPosition = models.CharField(max_length=100, default=None, blank=True, null=True, verbose_name="detailPosition")
     lat = models.FloatField(default=None, null=True, verbose_name="lat")
     lng = models.FloatField(default=None, null=True, verbose_name="lng")
     score = models.FloatField(default=0, verbose_name="综合得分")
+    status = models.CharField(max_length=100, default=STATUS_UNKNOW, choices=STATUS_CHOICE, verbose_name="status")
 
     @property
     def detail(self):
