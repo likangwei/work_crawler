@@ -49,7 +49,7 @@
 
     function get_point(company, func){
         if(company['lng'] != 0 && company['lat'] != 0.0){
-            point = new BMap.Point(company['lng'],company['lat']);
+            point = new BMap.Point(company['lng'], company['lat']);
             var myIcon = null;
             if(company['status'] == 'excellent'){
                 myIcon = new BMap.Icon("http://developer.baidu.com/map/jsdemo/img/fox.gif", new BMap.Size(300,157));
@@ -67,7 +67,7 @@
             // 将地址解析结果显示在地图上,并调整地图视野
             myGeo.getPoint(keyword , function(point){
                  if (point) {
-                     console.log("ok:" + keyword);
+                     console.log("ok:" + keyword + " " + point.lat + ":" +point.lng);
                      func(company, point);
                  }else{
                     console.log("fail!" + company['name'] + ":" + company['detailPosition']);
