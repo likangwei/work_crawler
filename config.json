@@ -6,6 +6,7 @@
         "USER": "root",
         "PASSWORD": "root",
         "HOST": "127.0.0.1"
-    }
+    },
+    "sentry": "https://7a0733ea133c453cae5dcba310ffa57e:bd44dc1021c0417cadbadd2c36971714@app.getsentry.com/78471"
 
 }

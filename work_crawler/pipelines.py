@@ -6,6 +6,7 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 from settings import HOST
+from settings import sentry_client
 import requests
 import json
 import base64
@@ -17,11 +18,18 @@ def post_job_to_server(item, logger=None):
     item = dict(item)
     url = "http://%s/rest/jobs/" % HOST
     user, pwd = 'root', 'root'
-    params = dict(item)
-    response = requests.post(url, json=params, auth=(user, pwd))
-    if not response:
-        logger.error(params)
-        logger.error(params)
+    # 检查是否存在
+    params = {'positionId': item['positionId']}
+    response = requests.get(url, params={'filter': json.dumps(params)})
+    resp_json = response.json()
+    # 存在
+    if not resp_json['count']:
+        params = dict(item)
+        response = requests.post(url, json=params, auth=(user, pwd))
+        if not response:
+            sentry_client.captureMessage(json.dumps(params, indent=4, ensure_ascii=False))
+            logger.error(params)
+            logger.error(response.content)
 
 
 def post_company_to_server(item, logger=None):
@@ -60,6 +68,7 @@ def post_company_to_server(item, logger=None):
         response = requests.post(url, json=params, auth=(user, pwd))
 
     if not response.ok:
+        sentry_client.captureMessage(json.dumps(params, indent=4, ensure_ascii=False))
         if logger:
             logger.error(params)
             logger.error(response.content)

@@ -31,6 +31,11 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+import raven
+
+RAVEN_CONFIG = {
+    'dsn': config['sentry'],
+}
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -43,6 +48,9 @@ INSTALLED_APPS = (
     'corsheaders',
     'rest_framework',
 )
+if config['sentry']:
+    INSTALLED_APPS += ('raven.contrib.django.raven_compat',)
+
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',

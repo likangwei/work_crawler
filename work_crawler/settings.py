@@ -12,10 +12,13 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 CONFIG = os.path.join(BASE_DIR, 'config.json')
+from raven import Client
+
 
 import json
 
 config = json.loads(open(CONFIG).read())
+sentry_client = Client(config['sentry'])
 
 HOST = config['host']
 
