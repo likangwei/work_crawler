@@ -57,7 +57,7 @@
 
         if(company['lng'] != 0 && company['lat'] != 0.0){
             point = new BMap.Point(company['lng'], company['lat']);
-//            func(company, point, myIcon);
+            func(company, point, myIcon);
         }else{
             var keyword = company['detailPosition'];
             // 将地址解析结果显示在地图上,并调整地图视野
