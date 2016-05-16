@@ -48,7 +48,7 @@
     var myGeo = new BMap.Geocoder();
 
     function get_point(company, func){
-        if(company['lng'] != '' && company['lat'] != ''){
+        if(company['lng'] != 0 && company['lat'] != 0.0){
             point = new BMap.Point(company['lng'],company['lat']);
             var myIcon = null;
             if(company['status'] == 'excellent'){
@@ -59,7 +59,7 @@
             func(company, point, myIcon);
         }else{
             var keyword = null;
-            if(!company['detailPosition'] in [0.0, "0.0", "", null]){
+            if(!company['detailPosition'] in ["", null]){
                 keyword = company['detailPosition']
             }else{
                 keyword = company['companyShortName']
