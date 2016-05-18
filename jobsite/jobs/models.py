@@ -36,7 +36,7 @@ class Company(models.Model):
 class Job(models.Model):
     companyId = models.CharField(max_length=255, default=None, null=True, verbose_name="companyId")
     positionName = models.CharField(max_length=255, default=None, null=True, verbose_name="职位")
-    positionType = models.CharField(max_length=255, default=None, null=True, verbose_name="职位类型")
+    positionType = models.CharField(max_length=255, default=None, blank=True, null=True, verbose_name="职位类型")
     workYear = models.CharField(max_length=255, default=None, null=True, verbose_name="工作年限")
     education = models.CharField(max_length=255, default=None, null=True, verbose_name="学历")
     jobNature = models.CharField(max_length=255, default=None, null=True, verbose_name="全职")
