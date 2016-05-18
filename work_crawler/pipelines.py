@@ -14,6 +14,7 @@ from requests.auth import HTTPBasicAuth
 import items
 import sys
 
+
 def post_job_to_server(item, logger=None):
     item = dict(item)
     url = "http://%s/rest/jobs/" % HOST
@@ -27,7 +28,8 @@ def post_job_to_server(item, logger=None):
         params = dict(item)
         response = requests.post(url, json=params, auth=(user, pwd))
         if not response:
-            sentry_client.captureMessage(json.dumps(params, indent=4, ensure_ascii=False))
+            error = response.content + "\n" + json.dumps(params, indent=4, ensure_ascii=False)
+            sentry_client.captureMessage(error)
             logger.error(params)
             logger.error(response.content)
 
@@ -68,7 +70,8 @@ def post_company_to_server(item, logger=None):
         response = requests.post(url, json=params, auth=(user, pwd))
 
     if not response.ok:
-        sentry_client.captureMessage(json.dumps(params, indent=4, ensure_ascii=False))
+        error_msg = response.content + "\n" + json.dumps(params, indent=4, ensure_ascii=False)
+        sentry_client.captureMessage(error_msg)
         if logger:
             logger.error(params)
             logger.error(response.content)
