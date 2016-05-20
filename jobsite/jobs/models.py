@@ -42,7 +42,7 @@ class Job(models.Model):
     jobNature = models.CharField(max_length=255, default=None, null=True, verbose_name="全职")
     createTime = models.CharField(max_length=255, default=None, null=True, verbose_name="创建时间")
     companyShortName = models.CharField(max_length=255, default=None, null=True, verbose_name="公司名称")
-    positionFirstType = models.CharField(max_length=255, default=None, null=True, verbose_name="技术")
+    positionFirstType = models.CharField(max_length=255, blank=True, default=None, null=True, verbose_name="技术")
     positionId = models.CharField(max_length=255, default=None, null=True, unique=True, verbose_name="id")
     salary = models.CharField(max_length=255, default=None, null=True, verbose_name="薪资范围")
     city = models.CharField(max_length=255, default=None, null=True, verbose_name="城市")
