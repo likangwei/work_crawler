@@ -21,7 +21,8 @@
 
 <script id="company_template" type="text/x-handlebars-template">
   <div class="entry">
-    <h4><a href="http://www.lagou.com/gongsi/{{ cid }}.html" target="_blank">{{ name }}</a></h4>
+    <h4><a href="admin/jobs/company/{{ id }}/" target="_blank">管理页面{{ name }}</a></h4>
+    <h4><a href="http://www.lagou.com/gongsi/{{ cid }}.html" target="_blank">拉勾{{ name }}</a></h4>
     <div class="body">
           {{#each jobs}}
               <li><a href="http://www.lagou.com/jobs/{{positionId}}.html" target="_blank">{{ positionName }}</a>{{ workYear }} {{ salary }} </li>
