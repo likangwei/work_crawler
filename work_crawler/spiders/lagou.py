@@ -68,7 +68,7 @@ class LagouSpider(scrapy.Spider):
         return request
 
     def get_company_request(self, company_item):
-        cid = company_item['companyId']
+        cid = company_item['cid']
         url = 'http://www.lagou.com/gongsi/%s.html' % cid
         request = Request(url, callback=self.parse_company)
         request.meta['company_item'] = company_item
@@ -89,53 +89,34 @@ class LagouSpider(scrapy.Spider):
                 item = JobItem()
                 item['companyId'] = result['companyId']
                 item['positionName'] = result['positionName']
-                item['positionType'] = result['positionType']
+                item['positionType'] = result['firstType']
                 item['workYear'] = result['workYear']
                 item['education'] = result['education']
                 item['jobNature'] = result['jobNature']
                 item['createTime'] = result['createTime']
                 item['companyShortName'] = result['companyShortName']
-                item['positionFirstType'] = result['positionFirstType']
+                item['positionFirstType'] = result['firstType']
                 item['positionId'] = result['positionId']
                 item['salary'] = result['salary']
                 item['city'] = result['city']
                 item['positionAdvantage'] = result['positionAdvantage']
-                item['companyName'] = result['companyName']
-                item['companyLogo'] = result['companyLogo']
+                item['companyName'] = result['companyFullName']
                 item['industryField'] = result['industryField']
                 item['financeStage'] = result['financeStage']
-                item['companyLabelList'] = result['companyLabelList']
-                item['leaderName'] = result['leaderName']
+                item['leaderName'] = result.get('leaderName', '')
                 item['companySize'] = result['companySize']
-                item['deliverCount'] = result['deliverCount']
-                item['score'] = result['score']
-                item['adjustScore'] = result['adjustScore']
-                item['relScore'] = result['relScore']
-                item['formatCreateTime'] = result['formatCreateTime']
-                item['randomScore'] = result['randomScore']
-                item['countAdjusted'] = result['countAdjusted']
-                item['calcScore'] = result['calcScore']
-                item['orderBy'] = result['orderBy']
-                item['showOrder'] = result['showOrder']
-                item['haveDeliver'] = result['haveDeliver']
+                item['deliverCount'] = 0
+                item['score'] = 0
+                item['adjustScore'] = ''
+                item['relScore'] = ''
                 item['adWord'] = result['adWord']
-                item['createTimeSort'] = result['createTimeSort']
-                item['positonTypesMap'] = result['positonTypesMap']
-                item['hrScore'] = result['hrScore']
-                item['flowScore'] = result['flowScore']
-                item['showCount'] = result['showCount']
-                item['pvScore'] = result['pvScore']
-                item['plus'] = result['plus']
-                item['imstate'] = result['imstate']
-                item['totalCount'] = result['totalCount']
-                item['searchScore'] = result['searchScore']
                 yield item
 
                 companyId = result['companyId']
                 company_item = CompanyItem()
-                company_item['companyId'] = companyId
+                company_item['cid'] = companyId
                 company_item['companyShortName'] = result['companyShortName']
-                company_item['companyName'] = result['companyName']
+                company_item['name'] = result['companyFullName']
                 company_item['financeStage'] = result['financeStage']
                 company_item['companySize'] = result['companySize']
                 yield self.get_company_request(company_item)
@@ -162,12 +143,12 @@ class LagouSpider(scrapy.Spider):
                         # company.json
                         interviewExperiencesData = line.strip()[start:endidx]
                         r = json.loads(interviewExperiencesData)
-                        location = r['location']
-                        if location:
-                            location = location[0]
-                            company_item['lat'] = location['latitude']
-                            company_item['lng'] = location['longitude']
-                            company_item['briefPosition'] = location['briefPosition']
-                            company_item['detailPosition'] = location['detailPosition']
+                        address_list = r.get("addressList")
+                        if address_list:
+                            location = address_list[0]
+                            company_item['lat'] = location['lat']
+                            company_item['lng'] = location['lng']
+                            # company_item['briefPosition'] = location['briefPosition']
+                            # company_item['detailPosition'] = location['detailPosition']
 
                 yield company_item

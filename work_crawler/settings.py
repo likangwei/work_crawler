@@ -9,7 +9,14 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 import os
+
+import sys
+import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+JOB_DIR = os.path.join(BASE_DIR, 'jobsite')
+sys.path.append(JOB_DIR)
+os.environ['DJANGO_SETTINGS_MODULE'] = 'jobsite.settings'
+
 
 CONFIG = os.path.join(BASE_DIR, 'config.json')
 from raven import Client

@@ -79,10 +79,11 @@ def post_company_to_server(item, logger=None):
 
 class WorkCrawlerPipeline(object):
     def process_item(self, item, spider):
-        if isinstance(item, items.JobItem):
-            post_job_to_server(item, logger=spider.logger)
-        elif isinstance(item, items.CompanyItem):
-            post_company_to_server(item, logger=spider.logger)
+        # if isinstance(item, items.JobItem):
+        #     post_job_to_server(item, logger=spider.logger)
+        # elif isinstance(item, items.CompanyItem):
+        #     post_company_to_server(item, logger=spider.logger)
+        item.save()
         return item
 
 if __name__ == '__main__':
