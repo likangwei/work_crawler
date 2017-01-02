@@ -49,6 +49,7 @@ class CompanyViewSet(viewsets.ModelViewSet):
         return queryset
 
 
+@login_required
 def index(request):
     company_ids = set()
     for job in Job.objects.all():
