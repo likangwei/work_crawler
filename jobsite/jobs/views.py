@@ -50,8 +50,34 @@ class CompanyViewSet(viewsets.ModelViewSet):
 
 
 def index(request):
-    company_list = Company.objects.all().values()
+    company_ids = set()
+    for job in Job.objects.all():
+        company_ids.add(job.companyId)
+
+    companys = Company.objects.filter(cid__in=company_ids)
+    data = []
+    for company in companys:
+        data.append({
+            "id": company.id,
+            "cid": company.cid,
+            "name": company.name,
+            "address": company.address,
+            "companyShortName": company.companyShortName,
+            "companyName": company.companyName,
+            "financeStage": company.financeStage,
+            "companySize": company.companySize,
+            "briefPosition": company.briefPosition,
+            "detailPosition": company.detailPosition,
+            "lat": company.lat,
+            "lng": company.lng,
+            "score": company.score,
+            "status": company.status,
+            "jobCount": Job.objects.filter(companyId=company.cid).count()
+        })
+    print len(data)
+    json_data = json.dumps(list(data), ensure_ascii=False)
+    print json_data
     # render_to_response('add.html', {'form': form}, context_instance=RequestContext(request))
     return render(request, 'map.html', context={
-        'company_list': json.dumps(list(company_list), ensure_ascii=False)
+        'company_list': json_data
     })

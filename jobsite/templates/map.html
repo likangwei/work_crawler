@@ -77,9 +77,7 @@
         var company = company_list[i];
         function drawCompany(company, point, icon) {
             var marker = new BMap.Marker(point);  // 创建标注
-
-
-            var content = [company['name'], ',', "得分:", company['score']].join("");
+            var content = [company['jobCount'], ': ', company['name'], ',', "得分:", company['score']].join("");
             var label = new BMap.Label(content, {offset: new BMap.Size(10,-10)});
             marker.setLabel(label)
             map.addOverlay(marker);               // 将标注添加到地图中
