@@ -89,7 +89,7 @@ WSGI_APPLICATION = 'jobsite.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
+LOGIN_URL = '/admin/login'
 DB_LOCAL = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'job',
